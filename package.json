@@ -1,0 +1,29 @@
+{
+  "name": "russian-geo-data",
+  "version": "0.0.1",
+  "description": "Geo data generator for russian regions (adm1 level)",
+  "main": "main.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Kreozot/russian-geo-data.git"
+  },
+  "keywords": [
+    "geojson",
+    "topojson",
+    "geo",
+    "region",
+    "russia",
+    "map"
+  ],
+  "author": "Kreozot",
+  "bugs": {
+    "url": "https://github.com/Kreozot/russian-geo-data/issues"
+  },
+  "homepage": "https://github.com/Kreozot/russian-geo-data",
+  "dependencies": {
+    "d3": "3.0.0",
+    "jsdom": "^3.1.2",
+    "ogr2ogr": "^0.5.1",
+    "topojson": "^1.6.19"
+  }
+}
