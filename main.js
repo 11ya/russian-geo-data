@@ -5,9 +5,42 @@ var d3 = require('d3');
 var jsdom = require('jsdom');
 var SVGO = require('svgo');
 
-svgo = new SVGO({
-
-});
+svgo = new SVGO({plugins: [
+	{cleanupAttrs: false},
+	{cleanupEnableBackground: false},
+	{cleanupIDs: false},
+	{cleanupListOfValues: false},
+	{cleanupNumericValues: true},
+	{collapseGroups: false},
+	{convertColors: false},
+	{convertPathData: true},
+	{convertShapeToPath: false},
+	{convertStyleToAttrs: false},
+	{convertTransform: false},
+	{mergePaths: false},
+	{moveElemsAttrsToGroup: false},
+	{moveGroupAttrsToElems: false},
+	{removeComments: false},
+	{removeDesc: false},
+	{removeDoctype: false},
+	{removeEditorsNSData: false},
+	{removeEmptyAttrs: false},
+	{removeEmptyContainers: false},
+	{removeEmptyText: false},
+	{removeHiddenElems: false},
+	{removeMetadata: false},
+	{removeNonInheritableGroupAttrs: false},
+	{removeRasterImages: false},
+	{removeTitle: false},
+	{removeUnknownsAndDefaults: false},
+	{removeUnusedNS: false},
+	{removeUselessDefs: false},
+	{removeUselessStrokeAndFill: false},
+	{removeViewBox: false},
+	{removeXMLProcInst: false},
+	{sortAttrs: false},
+	{transformsWithOnePath: false}
+]});
 
 toTopoJson('./geo.json');
 
@@ -50,14 +83,14 @@ function simplifyAndSaveSvg(data, proportion) {
 
 		saveTopoJson(topology, './topo' + fileSuffix + '.json');
 
-		generateSvg(topology, proportion, function(data) {
+		generateSvg(topology, function(data) {
 			saveSvg(data, './map' + fileSuffix + '.svg');
 		});
 	});
 }
 
 function simplifyTopoJson(data, proportion, callback) {
-	var options = {'retain-proportion': proportion, 'verbose': true};
+	var options = {'retain-proportion': proportion, 'verbose': false};
 	var topology = cloneData(topojson.topology({collection: data}, options));
 	topology = topojson.simplify(topology, options);
 	console.log('Simplify to ' + proportion + ': ok');
@@ -93,7 +126,7 @@ function generateSvg(topology, callback) {
 
 	    var styleDef = svg.append('defs')
 	    	.append('style')
-	    	.text('path {stroke: #272822; stroke-width: 1px; fill-opacity: 0.8; fill: #C0C0C0;} ' +
+	    	.text('path {stroke: #8C8F7C; stroke-width: 1px; fill-opacity: 0.8; fill: #C0C0C0;} ' +
 	    		'path:hover {fill-opacity: 1;}');
 
 		var projection = d3.geo.albers()
