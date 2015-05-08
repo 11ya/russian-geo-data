@@ -4,6 +4,7 @@ Actual (2015) Russian regions (adm1) boundaries data in GeoJson and TopoJson for
 Initial shapefile taken from http://gadm.org/
 
 What had been done with shapefile:
+
 1. Crimea and Sevastopol, yes :)
 2. Perm Krai (Perm Oblast + Komi-Permyak Autonomous Okrug)
 3. Krasnoyarsk Krai (Krasnoyarsk Krai + Evenk Autonomous Okrug + Taymyr Autonomous Okrug)
