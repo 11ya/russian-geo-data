@@ -11,3 +11,10 @@ What had been done with shapefile:
 4. **Kamchatka Krai** (Kamchatka Oblast + Koryak Autonomous Okrug)
 5. **Irkutsk Oblast** (Irkutsk Oblast + Ust-Orda Buryat Autonomous Okrug)
 6. **Zabaykalsky Krai** (Chita Oblast + Agin-Buryat Autonomous Okrug)
+
+| Simplify factor | GeoJSON              | TopoJSON                       | SVG preview                |
+|-----------------|----------------------|--------------------------------|----------------------------|
+| 1               | [geo.json](geo.json) | [topo.json](topo.json)         | [map.svg](map.svg)         |
+| 0.1             |                      | [topo-0.1.json](topo-0.1.json) | [map-0.1.svg](map-0.1.svg) |
+| 0.2             |                      | [topo-0.2.json](topo-0.2.json) | [map-0.2.svg](map-0.2.svg) |
+| 0.3             |                      | [topo-0.3.json](topo-0.3.json) | [map-0.3.svg](map-0.3.svg) |
