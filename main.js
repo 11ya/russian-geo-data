@@ -43,11 +43,13 @@ svgo = new SVGO({plugins: [
 ]});
 
 toTopoJson('./geo.json');
+// toGeoJson(toTopoJson);
 
 function toGeoJson(toTopoJson) {
 	ogr2ogr('./shapefile/RUS_adm1.shp')
 		.format('GeoJSON')
 		.timeout(30000)
+		.options(['--config', 'SHAPE_ENCODING', 'UTF-8'])
 		.stream()
 		.pipe(fs.createWriteStream('./geo.json').on('close', function() {
 			console.log('GeoJSON: ok');
@@ -67,17 +69,16 @@ function toTopoJson(filename) {
 		}
 
 		data = JSON.parse(data);
-		var options = {'verbose': false};
-		var topology = topojson.topology({collection: cloneData(data)}, options);
+		var names = data.features.map(feature => feature.properties.NL_NAME_1);
 
-		simplifyAndSaveSvg(cloneData(data), 1);
-		simplifyAndSaveSvg(cloneData(data), 0.1);
-		simplifyAndSaveSvg(cloneData(data), 0.2);
-		simplifyAndSaveSvg(cloneData(data), 0.3);
+		simplifyAndSaveSvg(cloneData(data), 1, names);
+		simplifyAndSaveSvg(cloneData(data), 0.1, names);
+		simplifyAndSaveSvg(cloneData(data), 0.2, names);
+		simplifyAndSaveSvg(cloneData(data), 0.3, names);
 	});
 }
 
-function simplifyAndSaveSvg(data, proportion) {
+function simplifyAndSaveSvg(data, proportion, names) {
 	simplifyTopoJson(data, proportion, function(topology) {
 		var fileSuffix = proportion == 1 ? "" : "-" + proportion;
 
@@ -85,7 +86,7 @@ function simplifyAndSaveSvg(data, proportion) {
 
 		generateSvg(topology, function(data) {
 			saveSvg(data, './map' + fileSuffix + '.svg');
-		});
+		}, names);
 	});
 }
 
@@ -106,18 +107,20 @@ function saveTopoJson(topology, filename) {
 	});
 }
 
-function generateSvg(topology, callback) {
+function generateSvg(topology, callback, names) {
 	jsdom.env('<html><body></body></html>', [], function(err, window) {
 		console.log("generating svg...");
 		
 		var width = 1000,
 			height = 500;
 
-		d3.select("body")
+		d3.select(window.document)
+			.select("body")
 			.selectAll("svg")
 			.remove();
 
-		var svg = d3.select("body")
+		var svg = d3.select(window.document)
+					.select("body")
 	        .append("svg")
 	        .attr("width", width)
 	        .attr("height", height)
@@ -129,14 +132,14 @@ function generateSvg(topology, callback) {
 	    	.text('path {stroke: #8C8F7C; stroke-width: 1px; fill-opacity: 0.8; fill: #C0C0C0;} ' +
 	    		'path:hover {fill-opacity: 1;}');
 
-		var projection = d3.geo.albers()
+		var projection = d3.geoAlbers()
 			.rotate([-105, 0])
 			.center([-10, 65])
 			.parallels([52, 64])
 			.scale(700)
 			.translate([width / 2, height / 2]);
 
-		var path = d3.geo.path().projection(projection);
+		var path = d3.geoPath().projection(projection);
 
 		svg.append("g")
 			.selectAll("path")
@@ -146,7 +149,16 @@ function generateSvg(topology, callback) {
 			.attr("d", path)
 			.attr("class", "region");
 
-		var svgData = d3.select("body").html();
+		if (names) {
+			var d = d => d;
+      	svg.select("g")
+          .selectAll("path")
+          .data(names)
+          .append("title")
+          .text(d)
+		}
+
+		var svgData = d3.select(window.document).select("body").html();
 
 		optimizeSvg(svgData, callback);
 	});

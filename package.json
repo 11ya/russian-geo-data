@@ -21,9 +21,9 @@
   },
   "homepage": "https://github.com/Kreozot/russian-geo-data",
   "dependencies": {
-    "d3": "3.0.0",
-    "jsdom": "^3.1.2",
-    "ogr2ogr": "^0.5.1",
+    "d3": "^5.9.7",
+    "jsdom": "^9.12.0",
+    "ogr2ogr": "^1.4.0",
     "svgo": "^0.5.1",
     "topojson": "^1.6.19"
   }
